@@ -1,0 +1,15 @@
+/* tăng chiều cao */
+.my-datepicker,
+.my-datepicker.form-control {
+  height: 3.5rem;        /* tương đương class .form-control-lg */
+  padding: 0.75rem 1rem; /* padding to match bootstrap-lg */
+  font-size: 1.125rem;   /* 18px */
+}
+
+/* nếu bạn muốn thay đổi chỉ input (bỏ wrapper) */
+.react-datepicker-wrapper .my-datepicker,
+.react-datepicker__input-container input.my-datepicker {
+  width: 100%;           /* full width */
+  height: 3.5rem;
+  font-size: 1.125rem;
+}

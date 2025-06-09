@@ -1,0 +1,29 @@
+/* custom-swiper.css */
+.mySwiperWithNav {
+  position: relative;
+}
+
+.mySwiperWithNav .swiper-button-next,
+.mySwiperWithNav .swiper-button-prev {
+  width: 30px;
+  height: 190px;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  z-index: 10;
+}
+
+.mySwiperWithNav .swiper-button-next {
+  right: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.mySwiperWithNav .swiper-button-prev {
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
