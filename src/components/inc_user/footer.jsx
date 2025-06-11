@@ -15,7 +15,7 @@ const Footer = () => {
             <i className="fab fa-facebook-square fs-2 m-5 text-muted"></i>
           </a>
         </div>
-        <div className="row mb-5">
+        <div className="row">
           <div className="col text-dark">
               <strong>Điều hướng:</strong>
               <p className="mt-3"><Link to={'/'}>Trang chủ</Link></p>
@@ -33,7 +33,7 @@ const Footer = () => {
               <p className="mt-3"><i className="fa fa-envelope"></i> Email: {settings?.email}</p>
           </div>
         </div>
-        <div className="text-center p-2">
+        <div className="text-center">
           <a href="https://github.com/PAXUT?tab=repositories" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-github-square fs-2 m-5 text-muted"></i>
           </a>

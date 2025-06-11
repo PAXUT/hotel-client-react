@@ -19,8 +19,8 @@ const Dashboard = () => {
   return (
     <div>
       <div className="row">
-        <div className="col-sm-6 col-md-3">
-          <div className="card card-stats card-round">
+        <div className="col-sm-6 col-md-3 mb-3">
+          <div className="card card-stats card-round h-100">
             <div className="card-body">
               <div className="row align-items-center">
                 <div className="col-icon">
@@ -38,8 +38,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-sm-6 col-md-3">
-          <div className="card card-stats card-round">
+        <div className="col-sm-6 col-md-3 mb-3">
+          <div className="card card-stats card-round h-100">
             <div className="card-body">
               <div className="row align-items-center">
                 <div className="col-icon">
@@ -57,8 +57,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-sm-6 col-md-3">
-          <div className="card card-stats card-round">
+        <div className="col-sm-6 col-md-3 mb-3">
+          <div className="card card-stats card-round h-100">
             <div className="card-body">
               <div className="row align-items-center">
                 <div className="col-icon">
@@ -76,8 +76,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className="col-sm-6 col-md-3">
-          <div className="card card-stats card-round">
+        <div className="col-sm-6 col-md-3 mb-3">
+          <div className="card card-stats card-round h-100">
             <div className="card-body">
               <div className="row align-items-center">
                 <div className="col-icon">

@@ -135,12 +135,7 @@ const User = () => {
             </Link>
           </div>
         </div>
-        <div className="row gx-4 gx-lg-5 justify-content-center">
-          <div className="col-lg-4 text-center mb-5 mb-lg-0">
-            <i className="bi-phone fs-2 mb-3 text-muted"></i>
-            <div>+1 (555) 123-4567</div>
-          </div>
-        </div>
+        
       </div>
     </section>
   );
