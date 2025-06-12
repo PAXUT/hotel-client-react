@@ -28,6 +28,7 @@ const Breadcrumb = () => {
       children: [
         { path: "/admin/room/list", label: "Danh sách phòng" },
         { path: "/admin/room/add", label: "Thêm phòng" },
+        { path: "/admin/room/empty", label: "Danh sách phòng trống" },
       ],
     },
     {

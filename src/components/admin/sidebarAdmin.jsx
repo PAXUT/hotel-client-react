@@ -72,6 +72,15 @@ const SidebarAdmin = () => {
                 <ul className="nav nav-collapse">
                   <li
                     className={
+                      location.pathname === "/admin/room/add" ? "active" : ""
+                    }
+                  >
+                    <Link to="/admin/room/add">
+                      <span className="sub-item">Thêm phòng mới</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={
                       location.pathname === "/admin/room/list" ? "active" : ""
                     }
                   >
@@ -81,11 +90,11 @@ const SidebarAdmin = () => {
                   </li>
                   <li
                     className={
-                      location.pathname === "/admin/room/add" ? "active" : ""
+                      location.pathname === "/admin/room/empty" ? "active" : ""
                     }
                   >
-                    <Link to="/admin/room/add">
-                      <span className="sub-item">Thêm phòng mới</span>
+                    <Link to="/admin/room/empty">
+                      <span className="sub-item">Danh sách phòng trống</span>
                     </Link>
                   </li>
                 </ul>

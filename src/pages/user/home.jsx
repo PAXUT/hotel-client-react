@@ -170,7 +170,6 @@ const Home = () => {
                     <a
                       className="portfolio-box"
                       href={`http://localhost:8000${settings[bannerKey]}`}
-                      title={`Banner ${index}`}
                       style={{ height: "100%" }}
                     >
                       <img
@@ -179,12 +178,7 @@ const Home = () => {
                         alt={`Banner ${index}`}
                         style={{ height: "100%" }}
                       />
-                      <div className="portfolio-box-caption">
-                        <div className="project-category text-white-50">
-                          Hình ảnh
-                        </div>
-                        <div className="project-name">Banner {index}</div>
-                      </div>
+                      
                     </a>
                   </div>
                 );

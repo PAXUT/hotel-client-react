@@ -11,6 +11,7 @@ import Booking from "../pages/admin/Booking";
 import Setting from "../pages/admin/Setting";
 import Supports from "../pages/admin/Supports";
 import Refund from "../pages/admin/Refund";
+import EmptyRoom from "../pages/admin/Empty_room";
 
 const AdminRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AdminRoutes = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/room/list" element={<TableRooms />} />
         <Route path="/room/add" element={<AddRooms />} />
+        <Route path="/room/empty" element={<EmptyRoom />} />
         <Route path="/type" element={<RoomType />} />
         <Route path="/convenient" element={<Convenient />} />
         <Route path="/support" element={<Supports />} />

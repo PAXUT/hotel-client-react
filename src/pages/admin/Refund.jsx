@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import Loading from "../../components/loading";
 import Pageginate from "../../components/pagegination";
-import { getDataBooking, updateRefund } from "../../services/OrderAPI";
+import { getRefund, updateRefund } from "../../services/OrderAPI";
 import DetailBooking from "../../components/form/detailbooking";
 import Swal from "sweetalert2";
 
 const Refund = () => {
   const [bookings, setBookings] = useState(null);
-  const bookingVNPAY = bookings?.filter((booking) => booking.refund !== "none");
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -18,11 +17,10 @@ const Refund = () => {
   const fetchData = useCallback(async (page = 1) => {
     // setLoading(true);
     try {
-      const response = await getDataBooking(page, perPage);
+      const response = await getRefund(page, perPage);
       setBookings(response.data);
       setCurrentPage(response.current_page);
       setLastPage(response.last_page);
-      return response.data;
     } catch (error) {
       console.error("Error fetching booking data:", error);
       Swal.fire({
@@ -30,7 +28,6 @@ const Refund = () => {
         text: "Không thể tải danh sách đơn hàng",
         icon: "error",
       });
-      return null;
     } finally {
       setLoading(false);
     }
@@ -195,9 +192,9 @@ const Refund = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {bookingVNPAY.map((booking, index) => (
+                    {bookings.map((booking, index) => (
                       <tr key={booking.id}>
-                        <td>{booking.id}</td>
+                        <td>{index + 1}</td>
                         <td>{booking.user?.name}</td>
                         <td>{booking.room?.name}</td>
                         <td>
@@ -270,7 +267,7 @@ const Refund = () => {
                   </div>
                 </div>
               )}
-              {bookingVNPAY?.length < perPage ? null : (
+              { (
                 <Pageginate
                   currentPage={currentPage}
                   totalPages={lastPage}

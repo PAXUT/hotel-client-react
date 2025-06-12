@@ -20,6 +20,15 @@ export const getDataRoom = async (page = 1, perPage) => {
   }
 };
 
+export const getEmptyrooms = async (page = 1, perPage) => {
+  try {
+    const response = await api.get(`/listroom?page=${page}&perPage=${perPage}`);
+    return response.data.emptyrooms;
+  } catch (error) {
+    return [];
+  }
+};
+
 export const getStatusRoom = async () => {
   try {
     const response = await api.get("/sttroom");

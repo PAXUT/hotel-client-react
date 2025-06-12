@@ -150,7 +150,7 @@ const Rooms = () => {
               key={room.id}
             >
               <div className="row g-0">
-                <div className="col-md-4" style={{ height: "280px" }}>
+                <div className="col-md-4 h-100" style={{ height: "280px" }}>
                   {room.images && room.images.length > 0 ? (
                     <img
                       src={`http://localhost:8000${room.images[0].image_path}`}

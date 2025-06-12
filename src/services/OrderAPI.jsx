@@ -29,6 +29,24 @@ export const getDataBooking = async (page = 1, perPage = 6) => {
   }
 };
 
+export const getRefund = async (page = 1, perPage = 6) => {
+  try {
+    const token = getToken();
+    const response = await api.get(
+      `/bookings?page=${page}&perPage=${perPage}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data.refund;
+  } catch (error) {
+    return [];
+  }
+};
+
 export const getAllData = async () => {
   try {
     const token = getToken();
