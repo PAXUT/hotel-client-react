@@ -8,6 +8,8 @@ import {
 } from "../../services/OrderAPI";
 import DetailBooking from "../../components/form/detailbooking";
 import Swal from "sweetalert2";
+import echo from "../../untils/echo";
+console.log("Echo object đã được import:", echo);
 
 const Booking = () => {
   const [bookings, setBookings] = useState(null);
@@ -18,6 +20,53 @@ const Booking = () => {
   const [lastPage, setLastPage] = useState(1);
   const isCheckingRef = useRef(false);
   const perPage = 10;
+
+  useEffect(() => {
+    console.log("useEffect của Booking component đã chạy"); // Thêm log này
+    echo.channel("bookings").listen(".booking.status.updated", (e) => {
+      console.log("🔴 SỰ KIỆN PUSHER ĐÃ ĐƯỢC NHẬN TRONG REACT!:", e); // Log toàn bộ object e
+      console.log("Dữ liệu booking:", e.booking);
+      // Thử cập nhật một biến state đơn giản để xem UI có thay đổi không
+      // Ví dụ: setLastReceivedBooking(e.booking);
+      setBookings((prevBookings) => {
+        // Nếu ban đầu chưa có bookings, trả về một mảng chỉ chứa booking mới
+        if (!prevBookings) {
+          return [e.booking];
+        }
+
+        // Tạo một bản sao mới của mảng để đảm bảo tính bất biến
+        const updatedBookings = prevBookings.map((booking) => {
+          // Nếu id của booking hiện tại khớp với id của booking nhận được từ Pusher
+          if (booking.id === e.booking.id) {
+            return e.booking; // Trả về booking mới đã cập nhật
+          }
+          return booking; // Giữ nguyên các booking khác
+        });
+
+        // Kiểm tra xem booking mới có phải là một booking hoàn toàn mới không
+        // (tức là không có trong prevBookings)
+        const isNewBooking = !updatedBookings.some(
+          (booking) => booking.id === e.booking.id
+        );
+        if (isNewBooking) {
+          // Nếu là booking mới, thêm nó vào đầu hoặc cuối danh sách
+          return [e.booking, ...updatedBookings]; // Thêm vào đầu
+        }
+
+        return updatedBookings;
+      });
+
+      // Tùy chọn: Nếu bạn muốn làm mới toàn bộ danh sách từ API sau khi nhận sự kiện,
+      // bạn có thể gọi fetchData ở đây. Tuy nhiên, nếu sự kiện chỉ cập nhật 1 booking,
+      // việc cập nhật cục bộ hiệu quả hơn.
+      // fetchData(currentPage);
+    });
+
+    return () => {
+      console.log("Rời kênh bookings");
+      echo.leave("bookings");
+    };
+  }, []);
 
   const fetchData = useCallback(async (page = 1) => {
     // setLoading(true);
@@ -238,7 +287,7 @@ const Booking = () => {
                       <th>Phòng</th>
                       <th>Phương thức thanh toán</th>
                       <th>Giá phòng</th>
-                      <th>Thanh toán</th>
+                      <th>Trạng thái thanh toán</th>
                       <th>Trạng thái đơn hàng</th>
                       <th style={{ textAlign: "center" }}>Hành động</th>
                     </tr>
@@ -324,7 +373,7 @@ const Booking = () => {
                                     type="button"
                                     onClick={() => handlePayment(booking.id)}
                                     className="btn btn-link btn-warning"
-                                    title="Thanh toán"
+                                    title="Thanh toán và nhận phòng"
                                   >
                                     <i className="fas fa-money-bill-wave"></i>
                                   </button>
@@ -352,7 +401,8 @@ const Booking = () => {
                                 </button>
                               </>
                             )}
-                            {(booking.status_id === 6 || booking.status_id === 8) && (
+                            {(booking.status_id === 6 ||
+                              booking.status_id === 8) && (
                               <>
                                 <button
                                   type="button"

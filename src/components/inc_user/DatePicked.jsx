@@ -4,7 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { api } from "../../services/RoomAPI";
 
 function CustomDatePicker({ onDateChange, roomId }) {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [bookedDates, setBookedDates] = useState([]);
 
@@ -32,17 +32,21 @@ function CustomDatePicker({ onDateChange, roomId }) {
     return diffDays;
   }, [startDate, endDate]);
 
+  const formatDate = (date) => {
+    return date?.toLocaleDateString("sv-SE"); // Output: yyyy-mm-dd
+  };
+
   useEffect(() => {
     if (endDate) {
       const days = getNumberOfDays();
       onDateChange({
-        startDate: startDate.toISOString().split("T")[0],
-        endDate: endDate.toISOString().split("T")[0],
+        startDate: formatDate(startDate),
+        endDate: formatDate(endDate),
         numberOfDays: days,
       });
     } else {
       onDateChange({
-        startDate: startDate.toISOString().split("T")[0],
+        startDate: formatDate(startDate),
         endDate: null,
         numberOfDays: 0,
       });
@@ -51,12 +55,25 @@ function CustomDatePicker({ onDateChange, roomId }) {
 
   const onChange = (dates) => {
     const [start, end] = dates;
+
+    if (!start && !end && start.getTime() !== startDate.getTime()) {
+      // Reset lại để bắt đầu chọn lại
+      setStartDate(start);
+      setEndDate(null);
+      return;
+    }
+    // Ngăn chọn cùng ngày
+    if (start && end && start.toDateString() === end.toDateString()) {
+      setStartDate(start);
+      setEndDate(null);
+      return;
+    }
     setStartDate(start);
     setEndDate(end);
   };
 
   const isDateBooked = (date) => {
-    return bookedDates.some(booked => {
+    return bookedDates.some((booked) => {
       const start = new Date(booked.start);
       const end = new Date(booked.end);
       return date >= start && date <= end;
@@ -70,8 +87,6 @@ function CustomDatePicker({ onDateChange, roomId }) {
       </label>
       <DatePicker
         id="dateRange"
-        // showIcon
-        // icon="fas fa-calendar-alt"
         selectsRange
         startDate={startDate}
         endDate={endDate}
@@ -80,8 +95,9 @@ function CustomDatePicker({ onDateChange, roomId }) {
         dateFormat="dd/MM/yyyy"
         className="form-control"
         autoComplete="off"
-        excludeDates={bookedDates.map(booked => new Date(booked.start))}
-        filterDate={date => !isDateBooked(date)}
+        placeholderText="Nhấn để chọn ngày đến và đi"
+        excludeDates={bookedDates.map((booked) => new Date(booked.start))}
+        filterDate={(date) => !isDateBooked(date)}
       />
     </div>
   );

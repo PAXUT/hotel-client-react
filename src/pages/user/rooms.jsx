@@ -5,6 +5,7 @@ import Pageginate from "../../components/pagegination";
 import SearchRoomForm from "../../components/form/search";
 import Loading from "../../components/loading";
 import Back from "../../components/inc_user/buttonBack";
+import echo from "../../untils/echo";
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -16,6 +17,53 @@ const Rooms = () => {
   const [lastPage, setLastPage] = useState(1);
   const [isSearching, setIsSearching] = useState(false);
   const perPage = 10;
+
+  useEffect(() => {
+    console.log("useEffect của room component đã chạy"); // Thêm log này
+    echo.channel("rooms").listen(".room.status.updated", (e) => {
+      console.log("🔴 SỰ KIỆN PUSHER ĐÃ ĐƯỢC NHẬN TRONG REACT!:", e); // Log toàn bộ object e
+      console.log("Dữ liệu room:", e.room);
+      // Thử cập nhật một biến state đơn giản để xem UI có thay đổi không
+      // Ví dụ: setLastReceivedBooking(e.booking);
+      setRooms((prevRooms) => {
+        // Nếu ban đầu chưa có bookings, trả về một mảng chỉ chứa booking mới
+        if (!prevRooms) {
+          return [e.room];
+        }
+
+        // Tạo một bản sao mới của mảng để đảm bảo tính bất biến
+        const updatedRooms = prevRooms.map((room) => {
+          // Nếu id của booking hiện tại khớp với id của booking nhận được từ Pusher
+          if (room.id === e.room.id) {
+            return e.room; // Trả về booking mới đã cập nhật
+          }
+          return room; // Giữ nguyên các booking khác
+        });
+
+        // Kiểm tra xem booking mới có phải là một booking hoàn toàn mới không
+        // (tức là không có trong prevBookings)
+        const isNewBooking = !updatedRooms.some(
+          (room) => room.id === e.room.id
+        );
+        if (isNewBooking) {
+          // Nếu là booking mới, thêm nó vào đầu hoặc cuối danh sách
+          return [e.room, ...updatedRooms]; // Thêm vào đầu
+        }
+
+        return updatedRooms;
+      });
+
+      // Tùy chọn: Nếu bạn muốn làm mới toàn bộ danh sách từ API sau khi nhận sự kiện,
+      // bạn có thể gọi fetchData ở đây. Tuy nhiên, nếu sự kiện chỉ cập nhật 1 booking,
+      // việc cập nhật cục bộ hiệu quả hơn.
+      // fetchData(currentPage);
+    });
+
+    return () => {
+      console.log("Rời kênh rooms");
+      echo.leave("rooms");
+    };
+  }, []);
 
   const fetchRooms = useCallback(
     async (page) => {

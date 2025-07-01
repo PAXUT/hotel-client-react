@@ -4,8 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Swal from "sweetalert2";
 
 const SearchRoomForm = ({ onSearch }) => {
-  const [checkInDate, setCheckInDate] = useState(new Date());
-  const [checkOutDate, setCheckOutDate] = useState("");
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
   const [guests, setGuests] = useState(1);
 
   const handleSubmit = (e) => {
@@ -59,6 +59,7 @@ const SearchRoomForm = ({ onSearch }) => {
                 wrapperClassName="w-100"
                 className="form-control w-100 border p-2 "
                 autoComplete="off"
+                placeholderText="Nhấn để chọn ngày đến và đi"
               />
             </div>
           </div>

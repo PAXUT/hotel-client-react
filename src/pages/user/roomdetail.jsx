@@ -23,6 +23,9 @@ const RoomDetail = () => {
       try {
         const response = await review(id);
         setReviews(response);
+        window.scroll({
+          top: 0,
+        });
       } catch (error) {
         console.error("Error fetching reviews:", error);
       }
@@ -38,6 +41,14 @@ const RoomDetail = () => {
   }, [room?.images]);
 
   const handleOrderRoom = (roomId) => {
+    if (room.status.id === 4) {
+      Swal.fire({
+        icon: "error",
+        title: "Phòng đang bảo trì",
+        text: "Chúng tôi xin lỗi vì sự bất tiện này. Vui lòng chọn phòng khác.",
+      });
+      return;
+    }
     if (!localStorage.getItem("user")) {
       Swal.fire({
         icon: "warning",
@@ -153,9 +164,12 @@ const RoomDetail = () => {
               )}
             </section>
             <section className="mb-4 col-lg-6">
-                  <h2 className="mb-4 text-center" style={{ fontFamily: "Romie Regular" }}>
-                    {room?.name}
-                  </h2>
+              <h2
+                className="mb-4 text-center"
+                style={{ fontFamily: "Romie Regular" }}
+              >
+                {room?.name}
+              </h2>
               <div className="row">
                 <div className="col-md-6">
                   <p>

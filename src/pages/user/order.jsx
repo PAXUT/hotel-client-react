@@ -41,6 +41,21 @@ const OrderRoom = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const now = new Date();
+    const checkInDate = new Date(selectedStartDate);
+    checkInDate.setHours(14, 0, 0, 0);
+
+    if (
+      now.toDateString() === checkInDate.toDateString() &&
+      now.getTime() > checkInDate.getTime()
+    ) {
+      Swal.fire(
+        "Bạn không thể đặt phòng sau giờ check-in hôm nay!",
+        "Vui lòng chọn ngày khác hoặc liên hệ trực tiếp với chúng tôi để được hỗ trợ.",
+        "error"
+      );
+      return;
+    }
     if (guest > parseInt(room.room_type.capacity)) {
       Swal.fire("Thất bại!", "Số người quá quy định!", "error");
       return;
@@ -122,29 +137,29 @@ const OrderRoom = () => {
                   </div>
                   <h4 className="mb-3">Tiện nghi phòng</h4>
                   {room?.convenients && room?.convenients.length > 0 ? (
-                  <ul className="list-unstyled d-flex flex-wrap gap-2">
-                    {room?.convenients.map((convenient) => (
-                      <li
-                        key={convenient.id}
-                        className="p-2"
-                        style={{
-                          border: "1px solid #ddd",
-                          borderRadius: "20px",
-                        }}
-                      >
-                        <i
-                          className={convenient.icon}
-                          style={{ marginRight: "5px" }}
-                        ></i>
-                        {convenient.name_convenient}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="text-muted">
-                    Không có tiện nghi nào được liệt kê.
-                  </p>
-                )}
+                    <ul className="list-unstyled d-flex flex-wrap gap-2">
+                      {room?.convenients.map((convenient) => (
+                        <li
+                          key={convenient.id}
+                          className="p-2"
+                          style={{
+                            border: "1px solid #ddd",
+                            borderRadius: "20px",
+                          }}
+                        >
+                          <i
+                            className={convenient.icon}
+                            style={{ marginRight: "5px" }}
+                          ></i>
+                          {convenient.name_convenient}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-muted">
+                      Không có tiện nghi nào được liệt kê.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
